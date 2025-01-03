@@ -1,50 +1,130 @@
-# Vite & NextUI Template
+# Misinformation Investigate - UI
 
-This is a template for creating applications using Vite and NextUI (v2).
+Demo link - https://www.youtube.com/watch?v=mvKfc1Jfy8Q
+<hr>
+The  user interface which will be used by users to start live feed processing using m3u8 links. Users will be able to check any fake news which have been detected.
 
-[Try it on CodeSandbox](https://githubbox.com/nextui-org/vite-template)
+## Instructions to run
 
-## Technologies Used
+### Serivices/Apps required
+- The User interface
+- Live Feed API
+- Speech to text API
+- Prediction API
+- Fact Checking API
+- Flink stream processing pipeline
+- Kafka broker
 
-- [Vite](https://vitejs.dev/guide/)
-- [NextUI](https://nextui.org)
-- [Tailwind CSS](https://tailwindcss.com)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org)
-- [Framer Motion](https://www.framer.com/motion)
+### Kafka
+<hr>
 
-## How to Use
+<b>Requirements</b>
 
-To clone the project, run the following command:
+1. Scala 2.13.14
+2. Apache Kafka 2.13-3.9.0
 
-```bash
-git clone https://github.com/nextui-org/vite-template.git
-```
+We will run the Kafka with KRaft mode
+- Format the kraft metadata directory using the command -
+    
+    bin/kafka-storage.sh format -t <unique_cluster_id> -c config/kraft/server.properties
+- Edit the config/kraft/server.properties file
+- Add proper listeners and controller ip addresses
+- Create kafka topics. Example - 
 
-### Install dependencies
+    bin/kafka-topics.sh --bootstrap-server <ip_addr:9092> --create --topic <topic_name> --partitions <p_count> --replication-factor <rep_count>
+- Run the kafka server - 
+    bin/kafka-server-start.sh config/kraft/server.properties
 
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
+### User Interface
+<hr>
 
-```bash
-npm install
-```
+<b>Requirements</b>
 
-### Run the development server
+1. Node and npm
 
-```bash
-npm run dev
-```
+Clone this repo
 
-### Setup pnpm (optional)
+- cd into repo folder
+- Run - npm install
+- Install the dependencies which are asked
+- Run - npm run dev
 
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
+### Live Feed API
+<hr>
 
-```bash
-public-hoist-pattern[]=*@nextui-org/*
-```
+<b>Requirements</b>
 
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
+1. Python 3.12
 
-## License
+Clone the repo - https://github.com/abhimessi16/Misinformation-Investigate-Feed-API
+- cd into repo folder
+- create a virtual environment - recommended
+- Run - pip install -r requirements.txt
+- Create a .env file using .envExample. Add the kafka broker urls.
+- Change the kafka topic name in params file if necessary
+- Run - fastapi run app/main.py (or run using uvicorn on different port)
 
-Licensed under the [MIT license](https://github.com/nextui-org/vite-template/blob/main/LICENSE).
+### Speech to Text API
+<hr>
+
+<b>Requirements</b>
+
+1. Python 3.12
+
+Clone the repo - https://github.com/abhimessi16/MI_Processing_STT
+- cd into repo folder
+- create a virtual environment - recommended
+- Run - pip install -r requirements.txt
+- Run - fastapi run app/main.py (or run using uvicorn on different port)
+
+### Prediction API
+<hr>
+
+<b>Requirements</b>
+
+1. Python 3.10.12
+
+Clone the repo - https://github.com/abhimessi16/MI_Fake_News_Prediction
+- cd into repo folder
+- create a virtual environment - recommended
+- Download and add the model and tokenizer files from - https://drive.google.com/drive/folders/1LSrSNxbLMT5yubg_tghWe1suH8qvGkmE?usp=sharing
+- If using own models then update the main, params and utils files accordingly
+- Run - pip install -r requirements.txt
+- Run - fastapi run app/main.py (or run using uvicorn on different port)
+
+### Fact Checking API
+<hr>
+
+<b>Requirements</b>
+
+1. Python 3.12
+
+Clone the repo - https://github.com/abhimessi16/MI_Processing_Check
+- cd into repo folder
+- create a virtual environment - recommended
+- Run - pip install -r requirements.txt
+- Create .env file using .envExample. Add your Google API key. This API key must have access to the Google Fact Check Tools API
+- Run - fastapi run app/main.py (or run using uvicorn on different port)
+<hr>
+Can use the same virtual environment for all python APIs except Prediction API.
+<hr>
+
+### Flink Streaming
+
+<b>Requirements</b>
+
+1. Java 11
+2. Maven
+
+Clone the repo - https://github.com/abhimessi16/mi-processing
+
+- cd into repo folder
+- Create application.properties using example.properties file
+- Enter all the relevant details in properties file
+- If running using jar file then make sure flink dependencies are built. 
+    - Follow - https://nightlies.apache.org/flink/flink-docs-release-1.4/start/building.html
+    - Run - mvn clean install
+    - Run the jar file
+- If running as a project
+    - make sure all dependencies are built
+    - Run DataStreamJob's main method
