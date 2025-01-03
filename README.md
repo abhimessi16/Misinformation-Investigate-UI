@@ -58,7 +58,7 @@ Clone this repo
 
 Clone the repo - https://github.com/abhimessi16/Misinformation-Investigate-Feed-API
 - cd into repo folder
-- create a virtual environment - recommended
+- Create a virtual environment - recommended
 - Run - pip install -r requirements.txt
 - Create a .env file using .envExample. Add the kafka broker urls.
 - Change the kafka topic name in params file if necessary
@@ -73,7 +73,7 @@ Clone the repo - https://github.com/abhimessi16/Misinformation-Investigate-Feed-
 
 Clone the repo - https://github.com/abhimessi16/MI_Processing_STT
 - cd into repo folder
-- create a virtual environment - recommended
+- Create a virtual environment - recommended
 - Run - pip install -r requirements.txt
 - Run - fastapi run app/main.py (or run using uvicorn on different port)
 
@@ -86,7 +86,7 @@ Clone the repo - https://github.com/abhimessi16/MI_Processing_STT
 
 Clone the repo - https://github.com/abhimessi16/MI_Fake_News_Prediction
 - cd into repo folder
-- create a virtual environment - recommended
+- Create a virtual environment - recommended
 - Download and add the model and tokenizer files from - https://drive.google.com/drive/folders/1LSrSNxbLMT5yubg_tghWe1suH8qvGkmE?usp=sharing
 - If using own models then update the main, params and utils files accordingly
 - Run - pip install -r requirements.txt
@@ -101,7 +101,7 @@ Clone the repo - https://github.com/abhimessi16/MI_Fake_News_Prediction
 
 Clone the repo - https://github.com/abhimessi16/MI_Processing_Check
 - cd into repo folder
-- create a virtual environment - recommended
+- Create a virtual environment - recommended
 - Run - pip install -r requirements.txt
 - Create .env file using .envExample. Add your Google API key. This API key must have access to the Google Fact Check Tools API
 - Run - fastapi run app/main.py (or run using uvicorn on different port)
